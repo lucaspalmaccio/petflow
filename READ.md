@@ -2,14 +2,17 @@
 Este documento contém as instruções para executar o projeto completo (Backend, Frontend e Banco de Dados) utilizando Docker.
 
 -------------------------------Pré-requisitos-------------------------------
+
 O único software necessário para executar este projeto é o Docker Desktop. Nenhum outro programa (Java, Node.js, PostgreSQL) precisa ser instalado na máquina.
 Faça o download do Docker Desktop aqui
 Após a instalação, certifique-se de que o Docker Desktop esteja em execução.
 
 -------------------------------Como Executar o Projeto-------------------------------
+
 Siga estes passos simples para colocar toda a aplicação no ar.
 
 -------------------------------Passo 1: Obtenha o Código-Fonte-------------------------------
+
 Clone ou faça o download deste repositório para a sua máquina. Se estiver usando Git, use o comando:
 
 git clone [https://github.com/lucaspalmaccio/clinicaroficial.git](https://github.com/lucaspalmaccio/clinicaroficial.git)
@@ -19,6 +22,7 @@ Depois, navegue para a pasta do projeto:
 cd clinicar
 
 -------------------------------Passo 2: Execute o Docker Compose-------------------------------
+
 Com o Docker Desktop rodando e o terminal aberto na pasta raiz do projeto (clinicar), execute o seguinte comando:
 
 docker-compose up --build -d
@@ -34,6 +38,7 @@ docker-compose up: Inicia todos os serviços definidos no arquivo docker-compose
 A primeira vez que este comando for executado, ele pode demorar alguns minutos para baixar as imagens e construir os projetos.
 
 -------------------------------Passo 3: Acesse a Aplicação-------------------------------
+
 Após o comando terminar, aguarde cerca de um minuto para que todos os serviços (especialmente o backend) iniciem completamente.
 
 Abra seu navegador de internet e acesse o seguinte endereço:
@@ -50,5 +55,6 @@ docker-compose down
 Isso irá parar e remover os contêineres, mas manterá os dados do banco de dados salvos para a próxima vez que você iniciar.
 
 -------------------------------Para parar e apagar todos os dados (incluindo o banco de dados), use:-------------------------------
+
 
 docker-compose down -v
