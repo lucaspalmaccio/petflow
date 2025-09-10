@@ -1,0 +1,25 @@
+<div class="fornecedor-container">
+  <h2>Fornecedores</h2>
+
+  <form [formGroup]="fornecedorForm" (ngSubmit)="salvarFornecedor()">
+    <label>Nome Fantasia:</label>
+    <input formControlName="nomeFantasia" />
+
+    <label>CNPJ:</label>
+    <input formControlName="cnpj" />
+
+    <label>Telefone:</label>
+    <input formControlName="telefone" />
+
+    <button type="submit">Salvar</button>
+  </form>
+
+  <p *ngIf="erro" class="erro">{{ erro }}</p>
+
+  <h3>Lista de Fornecedores</h3>
+  <ul>
+    <li *ngFor="let fornecedor of listaFornecedores">
+      {{ fornecedor.nomeFantasia }} - {{ fornecedor.cnpj }} - {{ fornecedor.telefone }}
+    </li>
+  </ul>
+</div>

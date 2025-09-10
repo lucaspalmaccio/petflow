@@ -1,0 +1,38 @@
+<div class="page-container">
+  <header class="page-header">
+    <h1>Estoque de Peças</h1>
+    <a routerLink="/pecas/novo" class="btn btn-primary">Adicionar Nova Peça</a>
+  </header>
+
+  <div class="table-container">
+    <table class="data-table">
+      <thead>
+      <tr>
+        <th>Nome da Peça</th>
+        <th>Fabricante</th>
+        <th>Preço de Venda</th>
+        <th>Em Estoque</th>
+        <th>Ações</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let peca of pecas">
+        <td>{{ peca.nome }}</td>
+        <td>{{ peca.fabricante }}</td>
+        <td>{{ peca.precoVenda | currency:'BRL' }}</td>
+        <td>{{ peca.quantidadeEstoque }}</td>
+        <td>
+          <div class="action-buttons">
+            <a [routerLink]="['/pecas/editar', peca.id]" class="btn btn-secondary">Editar</a>
+            <button (click)="excluir(peca.id)" class="btn btn-danger">Excluir</button>
+          </div>
+        </td>
+      </tr>
+      <tr *ngIf="pecas.length === 0">
+        <td colspan="5" class="empty-state">Nenhuma peça cadastrada.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <a routerLink="/dashboard" class="back-link">Voltar ao Dashboard</a>
+</div>

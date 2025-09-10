@@ -1,0 +1,9 @@
+.fornecedor-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.erro {
+  color: red;
+  margin-top: 10px;
+}

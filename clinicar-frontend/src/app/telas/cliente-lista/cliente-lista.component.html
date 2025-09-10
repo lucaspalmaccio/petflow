@@ -1,0 +1,45 @@
+<div class="container">
+  <header class="page-header">
+    <h1>Meus Clientes</h1>
+    <div>
+      <!-- Este link ainda não funcionará, pois não criamos o formulário de cliente -->
+      <a routerLink="/clientes/novo" class="btn btn-primary">Adicionar Cliente</a>
+      <a routerLink="/dashboard" class="btn btn-secondary">Voltar ao Dashboard</a>
+    </div>
+  </header>
+
+  <div *ngIf="mensagemErro" class="error-alert">
+    {{ mensagemErro }}
+  </div>
+
+  <div class="table-container" *ngIf="!mensagemErro">
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>CPF</th>
+        <th>Email</th>
+        <th>Telefone</th>
+        <th>Ações</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let cliente of clientes">
+        <td>{{ cliente.id }}</td>
+        <td>{{ cliente.nome }}</td>
+        <td>{{ cliente.cpf }}</td>
+        <td>{{ cliente.email }}</td>
+        <td>{{ cliente.telefone }}</td>
+        <td>
+          <button class="btn-action btn-edit" disabled>Editar</button>
+          <button class="btn-action btn-delete" disabled>Excluir</button>
+        </td>
+      </tr>
+      <tr *ngIf="clientes.length === 0">
+        <td colspan="6" class="no-data">Nenhum cliente cadastrado ainda.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

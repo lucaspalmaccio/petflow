@@ -1,23 +1,72 @@
 services:
+  # Serviço do Backend (Spring Boot)
+  backend:
+    build: ./backend
+    container_name: backend
+    depends_on:
+      # CORREÇÃO: Espera o postgres estar "healthy" (saudável) antes de iniciar
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/clinicar
+      SPRING_DATASource_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: Andressa@55
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+
+  # Serviço do Frontend (Nginx com Angular)
+  frontend:
+    build: ./clinicar-frontend
+    container_name: frontend
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+
+  # Serviço do Banco de Dados
   postgres:
     image: bitnami/postgresql:latest
+    container_name: postgres
     ports:
-      - '5432:5432'
+      - "5432:5432"
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=Andressa@55
-      - POSTGRES_DB=polls
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Andressa@55
+      POSTGRES_DB: clinicar
     volumes:
-      - polls_pg_data:/bitnami/postgresql
+      # CORREÇÃO: Nome do volume padronizado para clareza
+      - clinicar_pg_data:/bitnami/postgresql
+    # CORREÇÃO: Adicionada verificação de saúde para garantir que o BD está pronto
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d clinicar"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Serviço do Redis
   redis:
     image: bitnami/redis:latest
+    container_name: redis
     environment:
-      - ALLOW_EMPTY_PASSWORD=yes
+      ALLOW_EMPTY_PASSWORD: "yes"
     ports:
-      - '6379:6379'
+      - "6379:6379"
     volumes:
-      - 'clinicar_polls_redis_data:/bitnami/redis/data'
+      - clinicar_redis_data:/bitnami/redis/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
+# CORREÇÃO: Nomes dos volumes padronizados
 volumes:
-  polls_pg_data: {}
-  clinicar_polls_redis_data: {} # <-- NOME CORRIGIDO PARA BATER COM O USADO ACIMA
+  clinicar_pg_data: {}
+  clinicar_redis_data: {}
+
