@@ -5,17 +5,17 @@ import { Cliente } from '../../models/cliente';
 import { ClienteService } from '../../services/cliente.service';
 
 @Component({
-  selector: 'app-cliente-lista',
-  standalone: true,
-  imports: [CommonModule, RouterLink],
-  templateUrl: './cliente-lista.component.html',
-  styleUrls: ['./cliente-lista.component.css']
+selector: 'app-cliente-lista',
+standalone: true,
+imports: [CommonModule, RouterLink],
+templateUrl: './cliente-lista.component.html',
+styleUrls: ['./cliente-lista.component.css']
 })
 export class ClienteListaComponent implements OnInit {
-  clientes: Cliente[] = [];
-  mensagemErro: string = '';
+clientes: Cliente[] = [];
+mensagem: string | null = null;
 
-  constructor(private clienteService: ClienteService) { }
+constructor(private clienteService: ClienteService) { }
 
   ngOnInit(): void {
     this.carregarClientes();
@@ -23,14 +23,30 @@ export class ClienteListaComponent implements OnInit {
 
   carregarClientes(): void {
     this.clienteService.getClientes().subscribe({
-      next: (data) => {
-        this.clientes = data;
+      next: (dados) => {
+        this.clientes = dados;
       },
       error: (err) => {
         console.error('Erro ao carregar clientes', err);
-        this.mensagemErro = 'Não foi possível carregar a lista de clientes. Tente novamente mais tarde.';
+        this.mensagem = 'Não foi possível carregar a lista de clientes.';
       }
     });
+  }
+
+  excluirCliente(id?: number): void {
+    if (id && confirm('Tem certeza que deseja excluir este cliente?')) {
+      this.clienteService.excluirCliente(id).subscribe({
+        next: () => {
+          this.mensagem = 'Cliente excluído com sucesso!';
+          this.carregarClientes(); // Recarrega a lista
+          setTimeout(() => this.mensagem = null, 3000); // Limpa a mensagem após 3 segundos
+        },
+        error: (err) => {
+          console.error('Erro ao excluir cliente', err);
+          this.mensagem = 'Erro ao excluir o cliente.';
+        }
+      });
+    }
   }
 }
 
