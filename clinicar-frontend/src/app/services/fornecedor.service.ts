@@ -1,34 +1,42 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth.service';
-import { Fornecedor } from '../models/fornecedor.model';
+import { Fornecedor } from '../models/fornecedor';
 
 @Injectable({
-  providedIn: 'root'
+providedIn: 'root'
 })
 export class FornecedorService {
+// A URL base para as operações de criar, editar e excluir um fornecedor específico.
 private apiUrl = '/api/fornecedores';
-  constructor(private http: HttpClient, private authService: AuthService) { }
 
-  private getHeaders(): HttpHeaders {
-    const token = this.authService.getToken();
-    return new HttpHeaders({ 'Authorization': `Bearer ${token}` });
-  }
+constructor(private http: HttpClient) { }
 
+  /**
+   * CORREÇÃO: Este método agora aponta para a API '/api/fornecedores/meus'
+   * para buscar a lista de fornecedores do utilizador logado.
+   */
   getFornecedores(): Observable<Fornecedor[]> {
-    return this.http.get<Fornecedor[]>(`${this.apiUrl}/meus`, { headers: this.getHeaders() });
+    return this.http.get<Fornecedor[]>(`${this.apiUrl}/meus`);
   }
 
+  // Busca um único fornecedor pelo ID.
+  getFornecedor(id: number): Observable<Fornecedor> {
+    return this.http.get<Fornecedor>(`${this.apiUrl}/${id}`);
+  }
+
+  // Cria um novo fornecedor.
   criarFornecedor(fornecedor: Fornecedor): Observable<Fornecedor> {
-    return this.http.post<Fornecedor>(this.apiUrl, fornecedor, { headers: this.getHeaders() });
+    return this.http.post<Fornecedor>(this.apiUrl, fornecedor);
   }
 
-  atualizarFornecedor(fornecedor: Fornecedor): Observable<Fornecedor> {
-    return this.http.put<Fornecedor>(`${this.apiUrl}/${fornecedor.id}`, fornecedor, { headers: this.getHeaders() });
+  // Atualiza um fornecedor existente.
+  atualizarFornecedor(id: number, fornecedor: Fornecedor): Observable<Fornecedor> {
+    return this.http.put<Fornecedor>(`${this.apiUrl}/${id}`, fornecedor);
   }
 
+  // Exclui um fornecedor.
   excluirFornecedor(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

@@ -3,11 +3,14 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Cliente } from '../../models/cliente';
 import { ClienteService } from '../../services/cliente.service';
+import { CpfPipe } from '../../core/pipes/cpf.pipe';
+import { TelefonePipe } from '../../core/pipes/telefone.pipe';
 
 @Component({
 selector: 'app-cliente-lista',
 standalone: true,
-imports: [CommonModule, RouterLink],
+imports: [CommonModule, RouterLink, CpfPipe, TelefonePipe],
+// CORREÇÃO: Apontando para o ficheiro HTML correto
 templateUrl: './cliente-lista.component.html',
 styleUrls: ['./cliente-lista.component.css']
 })
@@ -23,13 +26,8 @@ constructor(private clienteService: ClienteService) { }
 
   carregarClientes(): void {
     this.clienteService.getClientes().subscribe({
-      next: (dados) => {
-        this.clientes = dados;
-      },
-      error: (err) => {
-        console.error('Erro ao carregar clientes', err);
-        this.mensagem = 'Não foi possível carregar a lista de clientes.';
-      }
+      next: (dados) => { this.clientes = dados; },
+      error: (err) => { this.mensagem = 'Não foi possível carregar a lista de clientes.'; }
     });
   }
 
@@ -38,15 +36,10 @@ constructor(private clienteService: ClienteService) { }
       this.clienteService.excluirCliente(id).subscribe({
         next: () => {
           this.mensagem = 'Cliente excluído com sucesso!';
-          this.carregarClientes(); // Recarrega a lista
-          setTimeout(() => this.mensagem = null, 3000); // Limpa a mensagem após 3 segundos
+          this.carregarClientes();
         },
-        error: (err) => {
-          console.error('Erro ao excluir cliente', err);
-          this.mensagem = 'Erro ao excluir o cliente.';
-        }
+        error: (err) => { this.mensagem = 'Erro ao excluir o cliente.'; }
       });
     }
   }
 }
-

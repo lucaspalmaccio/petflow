@@ -1,25 +1,47 @@
-<div class="fornecedor-container">
-  <h2>Fornecedores</h2>
+<div class="form-container">
+  <!-- O formulário usa ngModel e se conecta às variáveis do seu .ts -->
+  <form (ngSubmit)="salvar()" #fornecedorForm="ngForm" class="data-form">
+    <header class="form-header">
+      <h2>{{ isEditMode ? 'Editar Fornecedor' : 'Adicionar Novo Fornecedor' }}</h2>
+      <p>Preencha as informações do fornecedor abaixo.</p>
+    </header>
 
-  <form [formGroup]="fornecedorForm" (ngSubmit)="salvarFornecedor()">
-    <label>Nome Fantasia:</label>
-    <input formControlName="nomeFantasia" />
+    <!-- Usamos um layout de coluna única para simplicidade -->
+    <div class="form-grid-single">
+      <div class="form-group">
+        <label for="nomeFantasia">Nome Fantasia</label>
+        <input type="text" id="nomeFantasia" [(ngModel)]="fornecedor.nomeFantasia" name="nomeFantasia" required #nomeInput="ngModel">
+        <div *ngIf="nomeInput.invalid && (nomeInput.dirty || nomeInput.touched)" class="validation-error">
+          O nome fantasia é obrigatório.
+        </div>
+      </div>
 
-    <label>CNPJ:</label>
-    <input formControlName="cnpj" />
+      <div class="form-group">
+        <label for="cnpj">CNPJ</label>
+        <input type="text" id="cnpj" [(ngModel)]="fornecedor.cnpj" name="cnpj" required placeholder="00.000.000/0000-00" appCpfCnpjMask maxlength="18" #cnpjInput="ngModel">
+        <div *ngIf="cnpjInput.invalid && (cnpjInput.dirty || cnpjInput.touched)" class="validation-error">
+          O CNPJ é obrigatório.
+        </div>
+      </div>
 
-    <label>Telefone:</label>
-    <input formControlName="telefone" />
+      <div class="form-group">
+        <label for="telefone">Telefone</label>
+        <input type="text" id="telefone" [(ngModel)]="fornecedor.telefone" name="telefone" required placeholder="(11) 99999-9999" appTelefoneMask maxlength="15" #telefoneInput="ngModel">
+        <div *ngIf="telefoneInput.invalid && (telefoneInput.dirty || telefoneInput.touched)" class="validation-error">
+          O telefone é obrigatório.
+        </div>
+      </div>
+    </div>
 
-    <button type="submit">Salvar</button>
+    <!-- Exibe a mensagem de erro que vem do seu .ts -->
+    <div *ngIf="mensagemErro" class="alert alert-danger mt-3">
+      {{ mensagemErro }}
+    </div>
+
+    <footer class="form-actions">
+      <button type="button" class="btn btn-secondary" routerLink="/fornecedores">Cancelar</button>
+      <button type="submit" class="btn btn-primary" [disabled]="fornecedorForm.invalid">Salvar Fornecedor</button>
+    </footer>
   </form>
-
-  <p *ngIf="erro" class="erro">{{ erro }}</p>
-
-  <h3>Lista de Fornecedores</h3>
-  <ul>
-    <li *ngFor="let fornecedor of listaFornecedores">
-      {{ fornecedor.nomeFantasia }} - {{ fornecedor.cnpj }} - {{ fornecedor.telefone }}
-    </li>
-  </ul>
 </div>
+

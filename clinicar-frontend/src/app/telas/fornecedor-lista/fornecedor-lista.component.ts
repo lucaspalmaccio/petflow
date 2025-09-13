@@ -1,33 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { FornecedorService } from '../../services/fornecedor.service';
-import { Fornecedor } from '../../models/fornecedor.model';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { Fornecedor } from '../../models/fornecedor';
+import { FornecedorService } from '../../services/fornecedor.service';
+
+// 1. Importar os Pipes para formatação
+import { CpfCnpjPipe } from '../../core/pipes/cpf-cnpj.pipe';
+import { TelefonePipe } from '../../core/pipes/telefone.pipe';
 
 @Component({
-  selector: 'app-fornecedor-lista',
-  templateUrl: './fornecedor-lista.component.html',
-  styleUrls: ['./fornecedor-lista.component.css'],
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule]
+selector: 'app-fornecedor-lista',
+standalone: true,
+// 2. Adicionar os Pipes aos imports do componente
+imports: [CommonModule, RouterLink, CpfCnpjPipe, TelefonePipe],
+templateUrl: './fornecedor-lista.component.html',
+styleUrls: ['./fornecedor-lista.component.css']
 })
 export class FornecedorListaComponent implements OnInit {
+fornecedores: Fornecedor[] = [];
+mensagem: string | null = null;
 
-  listaFornecedores: Fornecedor[] = [];
-  erro: string = '';
-  fornecedorForm: FormGroup;
-  fornecedorSelecionado?: Fornecedor;
-
-  constructor(
-    private fornecedorService: FornecedorService,
-    private fb: FormBuilder
-  ) {
-    this.fornecedorForm = this.fb.group({
-      nomeFantasia: ['', Validators.required],
-      cnpj: ['', Validators.required],
-      telefone: ['']
-    });
-  }
+constructor(private fornecedorService: FornecedorService) { }
 
   ngOnInit(): void {
     this.carregarFornecedores();
@@ -35,59 +28,28 @@ export class FornecedorListaComponent implements OnInit {
 
   carregarFornecedores(): void {
     this.fornecedorService.getFornecedores().subscribe({
-      next: (fornecedores: Fornecedor[]) => this.listaFornecedores = fornecedores,
-      error: () => this.erro = 'Erro ao carregar fornecedores'
+      next: (dados) => this.fornecedores = dados,
+      error: (err) => {
+        console.error('Erro ao carregar fornecedores', err);
+        this.mensagem = 'Não foi possível carregar a lista de fornecedores.';
+      }
     });
   }
 
-  salvarFornecedor(): void {
-    if (this.fornecedorForm.invalid) return;
-
-    const fornecedor: Fornecedor = this.fornecedorForm.value;
-
-    if (this.fornecedorSelecionado) {
-      // Se estiver editando, atualiza o fornecedor
-      fornecedor.id = this.fornecedorSelecionado.id;
-      this.fornecedorService.atualizarFornecedor(fornecedor).subscribe({
+  excluirFornecedor(id?: number): void {
+    if (id && confirm('Tem certeza que deseja excluir este fornecedor?')) {
+      this.fornecedorService.excluirFornecedor(id).subscribe({
         next: () => {
+          this.mensagem = 'Fornecedor excluído com sucesso!';
           this.carregarFornecedores();
-          this.fornecedorForm.reset();
-          this.fornecedorSelecionado = undefined;
+          setTimeout(() => this.mensagem = null, 3000);
         },
-        error: () => this.erro = 'Erro ao atualizar fornecedor'
-      });
-    } else {
-      // Se não estiver editando, cria novo fornecedor
-      this.fornecedorService.criarFornecedor(fornecedor).subscribe({
-        next: () => {
-          this.carregarFornecedores();
-          this.fornecedorForm.reset();
-        },
-        error: () => this.erro = 'Erro ao salvar fornecedor'
+        error: (err) => {
+          console.error('Erro ao excluir fornecedor', err);
+          this.mensagem = 'Erro ao excluir o fornecedor.';
+        }
       });
     }
-  }
-
-  editarFornecedor(fornecedor: Fornecedor): void {
-    this.fornecedorSelecionado = fornecedor;
-    this.fornecedorForm.patchValue({
-      nomeFantasia: fornecedor.nomeFantasia,
-      cnpj: fornecedor.cnpj,
-      telefone: fornecedor.telefone
-    });
-  }
-
-  excluirFornecedor(fornecedor: Fornecedor): void {
-    if (fornecedor.id) {
-      this.fornecedorService.excluirFornecedor(fornecedor.id).subscribe({
-        next: () => this.carregarFornecedores(),
-        error: () => this.erro = 'Erro ao excluir fornecedor'
-      });
-    }
-  }
-
-  cancelarEdicao(): void {
-    this.fornecedorSelecionado = undefined;
-    this.fornecedorForm.reset();
   }
 }
+

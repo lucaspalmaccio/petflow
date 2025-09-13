@@ -1,57 +1,63 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { FornecedorService } from '../../services/fornecedor.service';
-import { AuthService } from '../../services/auth.service';
-import { Fornecedor } from '../../models/fornecedor.model';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Fornecedor } from '../../models/fornecedor';
+import { FornecedorService } from '../../services/fornecedor.service';
+import { CpfCnpjDirective } from '../../core/masks/cpf-cnpj.directive';
+import { TelefoneDirective } from '../../core/masks/telefone.directive';
 
 @Component({
-  selector: 'app-fornecedor-form',
-  templateUrl: './fornecedor-form.component.html',
-  styleUrls: ['./fornecedor-form.component.css'],
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule]
+selector: 'app-fornecedor-form',
+standalone: true,
+imports: [CommonModule, FormsModule, RouterLink, CpfCnpjDirective, TelefoneDirective],
+templateUrl: './fornecedor-form.component.html',
+styleUrls: ['./fornecedor-form.component.css']
 })
 export class FornecedorFormComponent implements OnInit {
+fornecedor: Fornecedor = {
+nomeFantasia: '',
+cnpj: '',
+telefone: ''
+};
+isEditMode = false;
+mensagemErro: string | null = null; // Renomeado de 'erro' para 'mensagemErro' para clareza
 
-  fornecedorForm!: FormGroup;
-  listaFornecedores: Fornecedor[] = [];
-  erro: string = '';
-
-  constructor(
-    private fb: FormBuilder,
+constructor(
     private fornecedorService: FornecedorService,
-    private authService: AuthService
-  ) {}
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
-    this.fornecedorForm = this.fb.group({
-      nomeFantasia: ['', Validators.required],
-      cnpj: ['', Validators.required],
-      telefone: ['']
-    });
-
-    this.carregarFornecedores();
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.isEditMode = true;
+      this.fornecedorService.getFornecedor(+id).subscribe(data => this.fornecedor = data);
+    }
   }
 
-  carregarFornecedores(): void {
-    this.fornecedorService.getFornecedores().subscribe({
-      next: (fornecedores: Fornecedor[]) => this.listaFornecedores = fornecedores,
-      error: (err: any) => this.erro = 'Erro ao carregar fornecedores'
-    });
-  }
+  // Renomeado de 'salvarFornecedor' para 'salvar' para consistência
+  salvar(): void {
+    this.mensagemErro = null;
+    const fornecedorParaSalvar: Fornecedor = {
+      ...this.fornecedor,
+      cnpj: this.fornecedor.cnpj.replace(/\D/g, ''),
+      telefone: this.fornecedor.telefone.replace(/\D/g, '')
+    };
 
-  salvarFornecedor(): void {
-    if (this.fornecedorForm.invalid) return;
+    const onSucesso = () => this.router.navigate(['/fornecedores']);
+    const onError = (err: any) => {
+      this.mensagemErro = 'Não foi possível salvar o fornecedor.';
+    };
 
-    const fornecedor: Fornecedor = this.fornecedorForm.value;
-
-    this.fornecedorService.criarFornecedor(fornecedor).subscribe({
-      next: (novoFornecedor: Fornecedor) => {
-        this.listaFornecedores.push(novoFornecedor);
-        this.fornecedorForm.reset();
-      },
-      error: (err: any) => this.erro = 'Erro ao salvar fornecedor'
-    });
+    if (this.isEditMode && this.fornecedor.id) {
+      this.fornecedorService.atualizarFornecedor(this.fornecedor.id, fornecedorParaSalvar)
+        .subscribe({ next: onSucesso, error: onError });
+    } else {
+      this.fornecedorService.criarFornecedor(fornecedorParaSalvar)
+        .subscribe({ next: onSucesso, error: onError });
+    }
   }
 }
+
