@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
 
-// Entidade para a tabela associativa ordem_servico_servicos
 @Data
 @Entity
 @Table(name = "ordem_servico_servicos")

@@ -24,7 +24,6 @@ public class Veiculo {
     @Column(nullable = false, unique = true)
     private String placa;
 
-    // Evita loop infinito na serialização JSON ao buscar um veículo e seu cliente.
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = false)

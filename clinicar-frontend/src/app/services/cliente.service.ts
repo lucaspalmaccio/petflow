@@ -7,7 +7,6 @@ import { Cliente } from '../models/cliente';
 providedIn: 'root'
 })
 export class ClienteService {
-// CORREÇÃO: A URL base para o CRUD de clientes deve ser esta.
 private apiUrl = '/api/clientes';
 
 constructor(private http: HttpClient) { }

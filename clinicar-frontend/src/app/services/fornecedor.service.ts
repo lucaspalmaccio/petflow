@@ -7,7 +7,6 @@ import { Fornecedor } from '../models/fornecedor';
 providedIn: 'root'
 })
 export class FornecedorService {
-// A URL base para as operações de criar, editar e excluir um fornecedor específico.
 private apiUrl = '/api/fornecedores';
 
 constructor(private http: HttpClient) { }

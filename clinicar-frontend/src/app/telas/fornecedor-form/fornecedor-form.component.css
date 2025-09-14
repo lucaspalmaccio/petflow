@@ -10,11 +10,10 @@
   --sombra-card: 0 8px 25px rgba(0, 0, 0, 0.08);
 }
 
-/* 2. Container Principal */
 .form-container {
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Alinha no topo */
+  align-items: flex-start;
   min-height: 100vh;
   padding: 3rem 1rem;
   background-color: var(--cor-fundo-pagina);
@@ -22,17 +21,15 @@
   box-sizing: border-box;
 }
 
-/* 3. Card do Formulário */
 .data-form {
   width: 100%;
-  max-width: 600px; /* Um pouco mais largo para formulários simples */
+  max-width: 600px;
   background-color: var(--cor-card);
   padding: 2.5rem;
   border-radius: 1rem;
   box-shadow: var(--sombra-card);
 }
 
-/* 4. Cabeçalho do Formulário */
 .form-header {
   text-align: center;
   margin-bottom: 2rem;
@@ -49,12 +46,10 @@
   margin-top: 0.5rem;
 }
 
-/* 5. Layout dos Campos */
-/* Como o formulário é de coluna única, não precisamos de grid complexo */
 .form-grid-single {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* Espaçamento entre os campos */
+  gap: 1.5rem;
 }
 
 .form-group {
@@ -84,7 +79,6 @@
   box-shadow: 0 0 0 4px rgba(0, 95, 115, 0.1);
 }
 
-/* 6. Rodapé com Botões de Ação */
 .form-actions {
   display: flex;
   justify-content: flex-end;
@@ -111,7 +105,6 @@
   opacity: 0.9;
   transform: translateY(-2px);
 }
-/* Desabilita o botão com um estilo mais claro */
 .btn-primary:disabled {
   background-color: #a9a9a9;
   cursor: not-allowed;
@@ -126,7 +119,6 @@
   background-color: #d1d5db;
 }
 
-/* 7. Mensagens de Validação e Erro */
 .validation-error {
   color: var(--cor-erro);
   font-size: 0.875rem;

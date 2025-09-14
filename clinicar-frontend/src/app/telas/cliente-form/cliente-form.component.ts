@@ -3,10 +3,8 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-// 1. IMPORTAÇÕES CORRIGIDAS
 import { CpfDirective } from '../../core/masks/cpf.directive';
 import { TelefoneDirective } from '../../core/masks/telefone.directive';
-// CORREÇÃO: O import estava a apontar para o ficheiro errado (cep.service.ts). Agora aponta para o ficheiro correto da diretiva.
 import { CepDirective } from '../../core/masks/cep.directive';
 import { Cliente } from '../../models/cliente';
 import { ClienteService } from '../../services/cliente.service';
@@ -21,7 +19,6 @@ imports: [
 CommonModule,
 FormsModule,
 RouterLink,
-// 2. DECLARAÇÃO DAS DIRETIVAS (Isto agora funcionará corretamente)
 CpfDirective,
 TelefoneDirective,
 CepDirective

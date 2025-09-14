@@ -4,7 +4,6 @@ services:
     build: ./backend
     container_name: backend
     depends_on:
-      # CORREÇÃO: Espera o postgres estar "healthy" (saudável) antes de iniciar
       postgres:
         condition: service_healthy
       redis:
@@ -40,9 +39,7 @@ services:
       POSTGRES_PASSWORD: Andressa@55
       POSTGRES_DB: clinicar
     volumes:
-      # CORREÇÃO: Nome do volume padronizado para clareza
       - clinicar_pg_data:/bitnami/postgresql
-    # CORREÇÃO: Adicionada verificação de saúde para garantir que o BD está pronto
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d clinicar"]
       interval: 10s
@@ -65,7 +62,6 @@ services:
       timeout: 5s
       retries: 5
 
-# CORREÇÃO: Nomes dos volumes padronizados
 volumes:
   clinicar_pg_data: {}
   clinicar_redis_data: {}

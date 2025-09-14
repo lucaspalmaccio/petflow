@@ -4,14 +4,12 @@ import { RouterLink } from '@angular/router';
 import { Fornecedor } from '../../models/fornecedor';
 import { FornecedorService } from '../../services/fornecedor.service';
 
-// 1. Importar os Pipes para formatação
 import { CpfCnpjPipe } from '../../core/pipes/cpf-cnpj.pipe';
 import { TelefonePipe } from '../../core/pipes/telefone.pipe';
 
 @Component({
 selector: 'app-fornecedor-lista',
 standalone: true,
-// 2. Adicionar os Pipes aos imports do componente
 imports: [CommonModule, RouterLink, CpfCnpjPipe, TelefonePipe],
 templateUrl: './fornecedor-lista.component.html',
 styleUrls: ['./fornecedor-lista.component.css']

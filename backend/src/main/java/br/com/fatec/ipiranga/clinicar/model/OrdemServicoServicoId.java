@@ -6,7 +6,6 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Objects;
 
-// Classe para a chave primária composta da tabela ordem_servico_servicos
 @Data
 @Embeddable
 public class OrdemServicoServicoId implements Serializable {
@@ -19,7 +18,6 @@ public class OrdemServicoServicoId implements Serializable {
     @Column(name = "servico_id")
     private Long servicoId;
 
-    // Construtores, equals e hashCode são importantes para chaves compostas
     public OrdemServicoServicoId() {
     }
 

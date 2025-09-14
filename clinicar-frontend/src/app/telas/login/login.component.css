@@ -1,12 +1,10 @@
-/*
-  CSS adaptado para a estrutura HTML com logo e duas colunas.
-*/
+
 :host {
-  --cor-primaria: #35689b;      /* Azul principal do seu design */
+  --cor-primaria: #35689b;
   --cor-primaria-hover: #2a527a;
-  --cor-secundaria: #6c757d;    /* Cinza para botões secundários */
-  --cor-sucesso: #198754;       /* Verde para o botão de cadastro */
-  --cor-fundo: #f8f9fa;         /* Cinza bem claro de fundo */
+  --cor-secundaria: #6c757d;
+  --cor-sucesso: #198754;
+  --cor-fundo: #f8f9fa;
   --cor-texto-principal: #212529;
   --cor-borda: #dee2e6;
   --cor-erro: #dc3545;
@@ -14,7 +12,6 @@
   --sombra-card: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
-/* Container que centraliza o conteúdo verticalmente */
 .container {
   display: flex;
   flex-direction: column;
@@ -23,11 +20,10 @@
   min-height: 100vh;
   width: 100%;
   background-color: var(--cor-fundo);
-  font-family: 'Inter', sans-serif; /* Use uma fonte moderna, se importada */
+  font-family: 'Inter', sans-serif;
   padding: 2rem 0;
 }
 
-/* Estilo para a logo no topo */
 #logotop {
   margin-bottom: 2rem;
 }
@@ -37,24 +33,21 @@
   height: auto;
 }
 
-/* Estilo do card principal */
 #card {
   width: 100%;
   background-color: var(--cor-branco);
-  border-radius: 0.5rem; /* 8px */
+  border-radius: 0.5rem;
   box-shadow: var(--sombra-card);
-  padding: 2.5rem; /* 40px */
+  padding: 2.5rem;
 }
 
-/* Títulos dentro do card */
 h4 {
-  font-size: 1.5rem; /* 24px */
+  font-size: 1.5rem;
   font-weight: 600;
   color: var(--cor-primaria);
   margin-bottom: 1.5rem;
 }
 
-/* Estilos para o formulário */
 .form-label {
   font-weight: 500;
   margin-bottom: 0.5rem;
@@ -65,7 +58,7 @@ h4 {
   width: 100%;
   padding: 0.75rem 1rem;
   border: 1px solid var(--cor-borda);
-  border-radius: 0.375rem; /* 6px */
+  border-radius: 0.375rem;
   font-size: 1rem;
   box-sizing: border-box;
   transition: border-color 0.2s, box-shadow 0.2s;
@@ -77,12 +70,10 @@ h4 {
   box-shadow: 0 0 0 3px rgba(53, 104, 155, 0.25);
 }
 
-/* Divisória entre as colunas */
 #comcadastro {
   padding-right: 2rem;
 }
 
-/* Estilo da coluna "Ainda não tenho cadastro" */
 #semcadastro {
   display: flex;
   flex-direction: column;
@@ -92,7 +83,6 @@ h4 {
   padding-left: 2rem;
 }
 
-/* Estilos genéricos para botões */
 .btn {
   display: inline-block;
   font-weight: 600;
@@ -105,7 +95,7 @@ h4 {
   transition: all 0.2s ease-in-out;
   margin-bottom: 0.5rem;
   width: 100%;
-  max-width: 250px; /* Largura máxima para os botões */
+  max-width: 250px;
 }
 
 .btn-primary {
@@ -127,7 +117,6 @@ h4 {
   background-color: var(--cor-sucesso);
 }
 
-/* Alerta de erro */
 .alert-danger {
   color: var(--cor-erro);
   background-color: #f8d7da;
@@ -137,7 +126,6 @@ h4 {
   margin-top: 1rem;
 }
 
-/* Adaptação para telas menores (celulares) */
 @media (max-width: 767px) {
   #comcadastro {
     border-right: none;

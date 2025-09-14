@@ -5,7 +5,6 @@ import jakarta.persistence.Embeddable;
 import lombok.Data;
 import java.io.Serializable;
 
-// Classe para a chave primária composta da tabela ordem_servico_pecas
 @Data
 @Embeddable
 public class OrdemServicoPecaId implements Serializable {

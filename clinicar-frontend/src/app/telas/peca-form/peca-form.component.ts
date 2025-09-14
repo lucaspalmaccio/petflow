@@ -13,7 +13,6 @@ import { PecaService } from '../../services/peca.service';
   styleUrls: ['./peca-form.component.css']
 })
 export class PecaFormComponent implements OnInit {
-  // CORREÇÃO: O objeto agora corresponde exatamente à interface Peca
   peca: Peca = {
     nome: '',
     fabricante: '',

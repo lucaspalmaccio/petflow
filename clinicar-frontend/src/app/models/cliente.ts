@@ -9,5 +9,4 @@ export interface Cliente {
   bairro?: string;
   cidade?: string;
   uf?: string;
-  // A referência ao usuário não é necessária no frontend para as operações de CRUD
 }

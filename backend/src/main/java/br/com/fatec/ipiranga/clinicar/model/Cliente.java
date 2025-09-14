@@ -35,7 +35,6 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Veiculo> veiculos = new ArrayList<>();
 
-    // NOVO: Relação com Usuario. Vários clientes podem pertencer a um usuário.
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false) // Garante que todo cliente tenha um usuário
     @JsonIgnore

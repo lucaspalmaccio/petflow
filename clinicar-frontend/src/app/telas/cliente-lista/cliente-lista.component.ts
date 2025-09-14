@@ -10,7 +10,6 @@ import { TelefonePipe } from '../../core/pipes/telefone.pipe';
 selector: 'app-cliente-lista',
 standalone: true,
 imports: [CommonModule, RouterLink, CpfPipe, TelefonePipe],
-// CORREÇÃO: Apontando para o ficheiro HTML correto
 templateUrl: './cliente-lista.component.html',
 styleUrls: ['./cliente-lista.component.css']
 })

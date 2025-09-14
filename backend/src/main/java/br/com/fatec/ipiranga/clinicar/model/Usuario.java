@@ -35,13 +35,11 @@ public class Usuario implements UserDetails {
     @JsonIgnore
     private List<Cliente> clientes = new ArrayList<>();
 
-    // NOVO: Relação com Fornecedor. Um usuário pode ter vários fornecedores.
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Fornecedor> fornecedores = new ArrayList<>();
 
 
-    // Métodos da interface UserDetails (Spring Security)
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role));

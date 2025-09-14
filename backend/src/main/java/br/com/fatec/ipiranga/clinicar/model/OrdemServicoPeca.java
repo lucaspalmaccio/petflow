@@ -10,16 +10,16 @@ import java.math.BigDecimal;
 @Table(name = "ordem_servico_pecas")
 public class OrdemServicoPeca {
 
-    @EmbeddedId // Chave primária composta
+    @EmbeddedId
     private OrdemServicoPecaId id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("ordemServicoId") // Mapeia o campo ordemServicoId da chave composta
+    @MapsId("ordemServicoId")
     @JoinColumn(name = "ordem_servico_id")
     private OrdemServico ordemServico;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("pecaId") // Mapeia o campo pecaId da chave composta
+    @MapsId("pecaId")
     @JoinColumn(name = "peca_id")
     private Peca peca;
 

@@ -1,12 +1,10 @@
 <div class="form-container">
-  <!-- O formulário usa ngModel e se conecta às variáveis do seu .ts -->
   <form (ngSubmit)="salvar()" #fornecedorForm="ngForm" class="data-form">
     <header class="form-header">
       <h2>{{ isEditMode ? 'Editar Fornecedor' : 'Adicionar Novo Fornecedor' }}</h2>
       <p>Preencha as informações do fornecedor abaixo.</p>
     </header>
 
-    <!-- Usamos um layout de coluna única para simplicidade -->
     <div class="form-grid-single">
       <div class="form-group">
         <label for="nomeFantasia">Nome Fantasia</label>
@@ -33,7 +31,6 @@
       </div>
     </div>
 
-    <!-- Exibe a mensagem de erro que vem do seu .ts -->
     <div *ngIf="mensagemErro" class="alert alert-danger mt-3">
       {{ mensagemErro }}
     </div>
