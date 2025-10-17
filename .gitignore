@@ -1,0 +1,21 @@
+# Arquivos do IntelliJ IDEA
+.idea/
+*.iml
+
+# Arquivos do Maven (Backend)
+/backend/target/
+/backend/mvnw
+/backend/mvnw.cmd
+/backend/.mvn/
+
+# Arquivos do Node.js (Frontend)
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.angular/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+logs
+*.log
