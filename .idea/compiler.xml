@@ -12,6 +12,9 @@
         <module name="clinicar" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="petflow" target="21" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
